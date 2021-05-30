@@ -1,0 +1,75 @@
+<div class="p-grid">
+
+  <div class="p-col-10 p-offset-1">
+
+    <h2>Filtros</h2>
+
+    <form (ngSubmit)="pesquisar()">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-5">
+          <label>Nome</label>
+          <input type="text" pInputText [(ngModel)]="filtro.nome" name="nome"/>
+        </div>
+
+        <div class="p-field p-col-12 p-md-5">
+          <label>Sobrenome</label>
+          <input type="text" pInputText [(ngModel)]="filtro.sobrenome" name="sobrenome"/>
+        </div>
+
+        <div class="p-field p-col-12 p-md-2">
+          <label>PIS</label>
+          <input type="text" pInputText [(ngModel)]="filtro.pis" name="pis">
+        </div>
+      </div>
+
+      <div class="p-pb-4"></div>
+
+      <p-button type="submit" icon="pi pi-search" label="pesquisar" class="p-mr-2"
+                pRipple></p-button>
+
+      <button pButton pRipple icon="pi pi-times" label="limpar"
+              class="p-button-outlined"
+              (click)="limpar()"></button>
+    </form>
+    <div class="p-pb-4"></div>
+
+    <p-table [value]="funcionarios" [lazy]="true" (onLazyLoad)="aoMudarPagina($event)"
+             [responsive]="true" [autoLayout]="true"
+             [paginator]="true" [rows]="filtro.size" [totalRecords]="totalRegistros" #tabela>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>código</th>
+          <th>Nome</th>
+          <th>Sobrenome</th>
+          <th>E-mail</th>
+          <th>Cadastro</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-funcionario>
+        <tr>
+          <td>{{ funcionario.id }}</td>
+          <td>{{ funcionario.nome }}</td>
+          <td>{{ funcionario.sobrenome }}</td>
+          <td>{{ funcionario.email }}</td>
+          <td>{{ funcionario.dataCadastro | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <button pButton pRipple icon="pi pi-pencil"
+                    class="p-button-rounded p-button-info p-mr-2"
+                    (click)="editar(funcionario)"></button>
+
+            <button pButton pRipple icon="pi pi-trash"
+                    class="p-button-rounded p-button-danger"
+                    (click)="confirmarExclusao(funcionario)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+
+</div>
+
+
+<app-float-button routerLink="novo"></app-float-button>

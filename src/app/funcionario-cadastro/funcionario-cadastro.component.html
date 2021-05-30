@@ -1,0 +1,45 @@
+<div class="p-grid">
+
+  <div class="p-col-10 p-offset-1">
+
+    <h2>{{ editando ? 'Edição de' : 'Novo' }} funcionário</h2>
+
+    <form [formGroup]="formulario" (ngSubmit)="salvar()">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-5">
+          <label>Nome</label>
+          <input type="text" formControlName="nome" pInputText/>
+        </div>
+
+        <div class="p-field p-col-12 p-md-5">
+          <label>Sobrenome</label>
+          <input type="text" pInputText formControlName="sobrenome"/>
+        </div>
+      </div>
+
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-5">
+          <label>E-mail</label>
+          <input type="text" pInputText formControlName="email"/>
+        </div>
+
+        <div class="p-field p-col-12 p-md-2">
+          <label>PIS</label>
+          <input type="text" pInputText formControlName="pis"/>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-12">
+          <p-button type="submit" icon="pi pi-check" label="Salvar" class="p-mr-2"
+                    [disabled]="formulario.invalid"
+                    pRipple></p-button>
+
+          <button pButton pRipple icon="pi pi-times" label="Cancelar"
+                  class="p-button-outlined" routerLink="/funcionarios"></button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
