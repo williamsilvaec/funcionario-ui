@@ -18,13 +18,21 @@ import {MessageModule} from "primeng/message";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ToastModule} from "primeng/toast";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {InputMaskModule} from "primeng/inputmask";
+import { MessageErrorComponent } from './message-error/message-error.component';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
+import {ngxLoadingAnimationTypes, NgxLoadingModule} from 'ngx-loading';
+import {PisPipeModule} from "./pipes/pis/pis-pipe.module";
+import {TooltipModule} from "primeng/tooltip";
 
 @NgModule({
   declarations: [
     AppComponent,
     FuncionarioComponent,
     FuncionarioCadastroComponent,
-    FloatButtonComponent
+    FloatButtonComponent,
+    MessageErrorComponent,
+    PaginaNaoEncontradaComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +41,13 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxLoadingModule.forRoot({
+      fullScreenBackdrop: true,
+      animationType: ngxLoadingAnimationTypes.circle,
+      primaryColour: '#4baaf5',
+      secondaryColour: '#cae6fc',
+    }),
+    PisPipeModule,
 
     TableModule,
     InputTextModule,
@@ -40,8 +55,10 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     ButtonModule,
     RippleModule,
     MessageModule,
+    InputMaskModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]

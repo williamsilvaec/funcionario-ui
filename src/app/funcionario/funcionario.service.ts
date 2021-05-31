@@ -7,8 +7,7 @@ import {map} from "rxjs/operators";
 export class Filtro {
 
   constructor(
-    public codigo?: number,
-    public pis?: number,
+    public pis?: string,
     public nome?: string,
     public sobrenome?: string,
     public page = 0,
@@ -24,6 +23,13 @@ export interface Funcionario {
   email: string;
   pis: string;
   dataCadastro: Date;
+}
+
+export interface FuncionarioInput {
+  nome: string;
+  sobrenome: string;
+  email: string;
+  pis: string;
 }
 
 export interface FuncionarioPage {
@@ -45,10 +51,6 @@ export class FuncionarioService {
       .set('page', filtro.page.toString())
       .set('size', filtro.size.toString());
 
-    if (filtro.codigo) {
-      params = params.set('codigo', filtro.codigo.toString());
-    }
-
     if (filtro.nome) {
       params = params.set('nome', filtro.nome.toString());
     }
@@ -58,7 +60,8 @@ export class FuncionarioService {
     }
 
     if (filtro.pis) {
-      params = params.set('pis', filtro.pis.toString());
+      const pis = this.removerFormatacaoPIS(filtro.pis);
+      params = params.set('pis', pis);
     }
 
     return this.httpClient.get(this.url, {params})
@@ -72,12 +75,14 @@ export class FuncionarioService {
       }));
   }
 
-  salvar(funcionario: any): Observable<any> {
-    return this.httpClient.post(this.url, funcionario);
+  salvar(funcionario: FuncionarioInput): Observable<Funcionario> {
+    funcionario.pis = this.removerFormatacaoPIS(funcionario.pis);
+    return this.httpClient.post<Funcionario>(this.url, funcionario);
   }
 
-  atualizar(funcionarioId: number, funcionario: any): Observable<any> {
-    return this.httpClient.put(`${this.url}/${funcionarioId}`, funcionario);
+  atualizar(funcionarioId: number, funcionario: FuncionarioInput): Observable<Funcionario> {
+    funcionario.pis = this.removerFormatacaoPIS(funcionario.pis);
+    return this.httpClient.put<Funcionario>(`${this.url}/${funcionarioId}`, funcionario);
   }
 
   buscar(codigo: number): Observable<any> {
@@ -86,6 +91,14 @@ export class FuncionarioService {
 
   remover(codigo: number): Observable<any> {
     return this.httpClient.delete(`${this.url}/${codigo}`);
+  }
+
+  private removerFormatacaoPIS(pis: string): string {
+    if (!pis) {
+      return '';
+    }
+
+    return pis.replace(/\D/g, '');
   }
 
 }

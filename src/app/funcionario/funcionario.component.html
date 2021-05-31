@@ -1,3 +1,5 @@
+<ngx-loading [show]="loading"></ngx-loading>
+
 <div class="p-grid">
 
   <div class="p-col-10 p-offset-1">
@@ -6,7 +8,7 @@
 
     <form (ngSubmit)="pesquisar()">
       <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-5">
+        <div class="p-field p-col-12 p-md-4">
           <label>Nome</label>
           <input type="text" pInputText [(ngModel)]="filtro.nome" name="nome"/>
         </div>
@@ -15,33 +17,38 @@
           <label>Sobrenome</label>
           <input type="text" pInputText [(ngModel)]="filtro.sobrenome" name="sobrenome"/>
         </div>
+      </div>
 
+      <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-2">
           <label>PIS</label>
-          <input type="text" pInputText [(ngModel)]="filtro.pis" name="pis">
+          <p-inputMask [(ngModel)]="filtro.pis" name="pis" mask="999.99999.99-9"></p-inputMask>
         </div>
       </div>
 
       <div class="p-pb-4"></div>
 
-      <p-button type="submit" icon="pi pi-search" label="pesquisar" class="p-mr-2"
-                pRipple></p-button>
+      <button pButton type="submit" icon="pi pi-search" label="Pesquisar" class="p-mr-2"
+                pRipple></button>
 
-      <button pButton pRipple icon="pi pi-times" label="limpar"
+      <button pButton pRipple icon="pi pi-times" label="Limpar"
               class="p-button-outlined"
               (click)="limpar()"></button>
     </form>
+
     <div class="p-pb-4"></div>
 
     <p-table [value]="funcionarios" [lazy]="true" (onLazyLoad)="aoMudarPagina($event)"
              [responsive]="true" [autoLayout]="true"
              [paginator]="true" [rows]="filtro.size" [totalRecords]="totalRegistros" #tabela>
+
       <ng-template pTemplate="header">
         <tr>
           <th>código</th>
           <th>Nome</th>
           <th>Sobrenome</th>
           <th>E-mail</th>
+          <th>PIS</th>
           <th>Cadastro</th>
           <th>Ações</th>
         </tr>
@@ -53,23 +60,32 @@
           <td>{{ funcionario.nome }}</td>
           <td>{{ funcionario.sobrenome }}</td>
           <td>{{ funcionario.email }}</td>
+          <td>{{ funcionario.pis | pis }}</td>
           <td>{{ funcionario.dataCadastro | date: 'dd/MM/yyyy' }}</td>
           <td>
             <button pButton pRipple icon="pi pi-pencil"
                     class="p-button-rounded p-button-info p-mr-2"
+                    pTooltip="Editar" tooltipPosition="top"
                     (click)="editar(funcionario)"></button>
 
             <button pButton pRipple icon="pi pi-trash"
                     class="p-button-rounded p-button-danger"
+                    pTooltip="Excluir" tooltipPosition="top"
                     (click)="confirmarExclusao(funcionario)"></button>
           </td>
         </tr>
       </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">Nenhum registro encontrado</td>
+        </tr>
+      </ng-template>
+
     </p-table>
 
   </div>
 
 </div>
-
 
 <app-float-button routerLink="novo"></app-float-button>

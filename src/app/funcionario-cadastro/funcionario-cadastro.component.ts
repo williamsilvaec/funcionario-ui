@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {FuncionarioService} from "../funcionario/funcionario.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ErrorHandlerService} from "../error-handler.service";
+import {finalize} from "rxjs/operators";
 
 @Component({
   selector: 'app-funcionario-cadastro',
@@ -12,12 +14,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class FuncionarioCadastroComponent implements OnInit {
 
   formulario = this.fb.group({
-    nome: [null, Validators.required],
-    sobrenome: [null, Validators.required],
-    email: [null, Validators.required],
+    nome: [null, [Validators.required, this.validarTamanhoMinimo(2), this.validarTamanhoMaximo(30)]],
+    sobrenome: [null, [Validators.required, this.validarTamanhoMinimo(2), this.validarTamanhoMaximo(50)]],
+    email: [null, Validators.email],
     pis: [null, Validators.required]
   });
 
+  loading = false;
   codigo!: number;
 
   constructor(
@@ -25,7 +28,8 @@ export class FuncionarioCadastroComponent implements OnInit {
     private funcionarioService: FuncionarioService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private errorHandler: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +38,18 @@ export class FuncionarioCadastroComponent implements OnInit {
     if (this.codigo) {
       this.carregarFuncionario(this.codigo);
     }
+  }
+
+  validarTamanhoMinimo(valor: number) {
+    return (input: FormControl) => {
+      return (!input.value || input.value.length >= valor) ? null : { tamanhoMinimo: { tamanho: valor } };
+    };
+  }
+
+  validarTamanhoMaximo(valor: number) {
+    return (input: FormControl) => {
+      return (!input.value || input.value.length <= valor) ? null : { tamanhoMaximo: { tamanho: valor } };
+    };
   }
 
   get editando(): boolean {
@@ -49,23 +65,29 @@ export class FuncionarioCadastroComponent implements OnInit {
   }
 
   cadastrar() {
+    this.loading = true;
+
     this.funcionarioService.salvar(this.formulario.value)
+      .pipe(finalize(() => this.loading = false))
       .subscribe((funcionario) => {
 
-        this.messageService.add({severity: 'success', detail: 'Funcionário cadastrado com sucesso'});
+        this.messageService.add({severity: 'success', detail: 'Funcionário(a) cadastrado(a) com sucesso'});
         this.router.navigate(['/funcionarios', funcionario.id])
 
-      }, error => console.log('erro', error))
+      }, error => this.errorHandler.handle(error))
   }
 
   atualizar() {
+    this.loading = true;
+
     this.funcionarioService.atualizar(this.codigo, this.formulario.value)
+      .pipe(finalize(() => this.loading = false))
       .subscribe((funcionario) => {
 
-        this.messageService.add({severity: 'success', detail: 'Funcionário atualizado com sucesso'});
+        this.messageService.add({severity: 'success', detail: 'Funcionário(a) atualizado(a) com sucesso'});
         this.formulario.patchValue(funcionario);
 
-      }, error => console.log(error));
+      }, error => this.errorHandler.handle(error));
   }
 
   carregarFuncionario(codigo: number) {
@@ -74,7 +96,7 @@ export class FuncionarioCadastroComponent implements OnInit {
 
         this.formulario.patchValue(funcionario);
 
-      }, error => console.log(error));
+      }, error => this.errorHandler.handle(error));
   }
 
 }
