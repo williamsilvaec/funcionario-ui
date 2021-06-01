@@ -1,17 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Filtro, Funcionario, FuncionarioService} from "./funcionario.service";
+import {Filtro, Funcionario, FuncionarioService} from "../funcionario.service";
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {Router} from "@angular/router";
 import {Table} from "primeng/table";
 import {finalize} from "rxjs/operators";
-import {ErrorHandlerService} from "../error-handler.service";
+import {ErrorHandlerService} from "../../error-handler.service";
 
 @Component({
-  selector: 'app-funcionario',
-  templateUrl: './funcionario.component.html',
-  styleUrls: ['./funcionario.component.scss']
+  selector: 'app-funcionarios-pesquisa',
+  templateUrl: './funcionarios-pesquisa.component.html'
 })
-export class FuncionarioComponent implements OnInit {
+export class FuncionariosPesquisaComponent implements OnInit {
 
   totalRegistros = 0;
   filtro = new Filtro();

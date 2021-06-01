@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
-import {FuncionarioService} from "../funcionario/funcionario.service";
+import {FuncionarioService} from "../funcionario.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ErrorHandlerService} from "../error-handler.service";
+import {ErrorHandlerService} from "../../error-handler.service";
 import {finalize} from "rxjs/operators";
 
 @Component({
   selector: 'app-funcionario-cadastro',
-  templateUrl: './funcionario-cadastro.component.html',
-  styleUrls: ['./funcionario-cadastro.component.scss']
+  templateUrl: './funcionario-cadastro.component.html'
 })
 export class FuncionarioCadastroComponent implements OnInit {
 
