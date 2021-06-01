@@ -4,7 +4,7 @@
 
   <div class="p-col-10 p-offset-1">
 
-    <h2>Filtros</h2>
+    <h2>Filtros<i class="pi pi-filter p-pl-2"></i></h2>
 
     <form (ngSubmit)="pesquisar()">
       <div class="p-fluid p-formgrid p-grid">
@@ -28,8 +28,8 @@
 
       <div class="p-pb-4"></div>
 
-      <button pButton type="submit" icon="pi pi-search" label="Pesquisar" class="p-mr-2"
-                pRipple></button>
+      <button pButton type="submit" icon="pi pi-search" label="Pesquisar"
+              class="p-mr-2" pRipple></button>
 
       <button pButton pRipple icon="pi pi-times" label="Limpar"
               class="p-button-outlined"
@@ -56,12 +56,14 @@
 
       <ng-template pTemplate="body" let-funcionario>
         <tr>
-          <td>{{ funcionario.id }}</td>
-          <td>{{ funcionario.nome }}</td>
-          <td>{{ funcionario.sobrenome }}</td>
-          <td>{{ funcionario.email }}</td>
-          <td>{{ funcionario.pis | pis }}</td>
-          <td>{{ funcionario.dataCadastro | date: 'dd/MM/yyyy' }}</td>
+          <td><span class="p-column-title">Cód.</span>{{ funcionario.id }}</td>
+          <td><span class="p-column-title">Nome</span>{{ funcionario.nome }}</td>
+          <td><span class="p-column-title">Sobrenome</span>{{ funcionario.sobrenome }}</td>
+          <td><span class="p-column-title">E-mail</span>{{ funcionario.email }}</td>
+          <td><span class="p-column-title">PIS</span>{{ funcionario.pis | pis }}</td>
+          <td><span class="p-column-title">Cadastro</span>
+            {{ funcionario.dataCadastro | date: 'dd/MM/yyyy' }}
+          </td>
           <td>
             <button pButton pRipple icon="pi pi-pencil"
                     class="p-button-rounded p-button-info p-mr-2"
