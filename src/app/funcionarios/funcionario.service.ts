@@ -43,7 +43,7 @@ export class FuncionarioService {
   url: string;
 
   constructor(private httpClient: HttpClient) {
-    this.url = `${environment.api}/funcionarios/v1`;
+    this.url = `${environment.api}/v1/funcionarios`;
   }
 
   pesquisar(filtro: Filtro): Observable<FuncionarioPage> {
