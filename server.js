@@ -1,12 +1,11 @@
 const express = require('express');
 const path = require('path');
-const enforce = require('express-sslify');
 const nomeApp = process.env.npm_package_name;
 const app = express();
 
 
 app.use(express.static(`${__dirname}/dist/${nomeApp}`));
-app.use(enforce.HTTPS({ trustXForwardedHostHeader: true }));
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/dist/${nomeApp}/index.html`));
 });
