@@ -6,7 +6,7 @@ const app = express();
 
 
 app.use(express.static(`${__dirname}/dist/${nomeApp}`));
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
+app.use(enforce.HTTPS({ trustXForwardedHostHeader: true }));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/dist/${nomeApp}/index.html`));
 });
