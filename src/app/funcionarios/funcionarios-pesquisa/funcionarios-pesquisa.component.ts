@@ -15,7 +15,7 @@ export class FuncionariosPesquisaComponent implements OnInit {
   totalRegistros = 0;
   filtro = new Filtro();
   funcionarios: Funcionario[] = [];
-  @ViewChild('tabela') tabela!: Table;
+  @ViewChild('tabela') tabela!: Table ;
   loading!: boolean;
 
   constructor(

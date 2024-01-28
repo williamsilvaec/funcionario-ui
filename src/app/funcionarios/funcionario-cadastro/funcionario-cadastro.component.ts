@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, Validators} from "@angular/forms";
 import {FuncionarioService} from "../funcionario.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -23,7 +23,7 @@ export class FuncionarioCadastroComponent implements OnInit {
   codigo!: number;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private funcionarioService: FuncionarioService,
     private messageService: MessageService,
     private route: ActivatedRoute,
@@ -40,13 +40,13 @@ export class FuncionarioCadastroComponent implements OnInit {
   }
 
   validarTamanhoMinimo(valor: number) {
-    return (input: FormControl) => {
+    return (input: UntypedFormControl) => {
       return (!input.value || input.value.length >= valor) ? null : { tamanhoMinimo: { tamanho: valor } };
     };
   }
 
   validarTamanhoMaximo(valor: number) {
-    return (input: FormControl) => {
+    return (input: UntypedFormControl) => {
       return (!input.value || input.value.length <= valor) ? null : { tamanhoMaximo: { tamanho: valor } };
     };
   }

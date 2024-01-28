@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-message-error',
@@ -12,7 +12,7 @@ import {FormControl} from "@angular/forms";
 export class MessageErrorComponent implements OnInit {
 
   @Input() error!: string;
-  @Input() control!: FormControl;
+  @Input() control!: UntypedFormControl;
   @Input() message = 'Obrigatório(a)';
 
   constructor() { }
